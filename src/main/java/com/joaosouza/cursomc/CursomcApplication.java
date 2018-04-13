@@ -8,8 +8,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.joaosouza.cursomc.domain.Categoria;
+import com.joaosouza.cursomc.domain.Cidade;
+import com.joaosouza.cursomc.domain.Estado;
 import com.joaosouza.cursomc.domain.Produto;
 import com.joaosouza.cursomc.repositories.CategoriaRepository;
+import com.joaosouza.cursomc.repositories.CidadeRepository;
+import com.joaosouza.cursomc.repositories.EstadoRepository;
 import com.joaosouza.cursomc.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -17,9 +21,12 @@ public class CursomcApplication implements CommandLineRunner{
 
 	@Autowired
 	private CategoriaRepository categoriaRepository;
-
 	@Autowired
 	private ProdutoRepository produtoRepository;
+	@Autowired
+	private EstadoRepository estadoRepository;
+	@Autowired
+	private CidadeRepository cidadeRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -42,8 +49,28 @@ public class CursomcApplication implements CommandLineRunner{
 		p2.getCategorias().addAll(Arrays.asList(cat1, cat2));
 		p3.getCategorias().addAll(Arrays.asList(cat1));
 		
-		
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
+		
+		Estado est1 = new Estado(null, "Rio Grande do Sul");
+		Estado est2 = new Estado(null, "Santa Catarina");
+		Estado est3 = new Estado(null, "Paraná");
+		Estado est4 = new Estado(null, "São Paulo");
+		
+		Cidade c1 = new Cidade(null, "Porto Alegre", est1);
+		Cidade c2 = new Cidade(null, "Florianópolis", est2);
+		Cidade c3 = new Cidade(null, "Curitiba", est3);
+		Cidade c4 = new Cidade(null, "São Paulo", est4);
+		
+		est1.getCidades().addAll(Arrays.asList(c1));
+		est2.getCidades().addAll(Arrays.asList(c2));
+		est3.getCidades().addAll(Arrays.asList(c3));
+		est4.getCidades().addAll(Arrays.asList(c4));
+		
+		estadoRepository.saveAll(Arrays.asList(est1, est2, est3, est4));
+		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3, c4));
+		
+		
+		
 	}
 }
