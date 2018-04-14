@@ -3,7 +3,9 @@ package com.joaosouza.cursomc.resources;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import javax.persistence.Id;
 import javax.xml.ws.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.joaosouza.cursomc.domain.Categoria;
+import com.joaosouza.cursomc.dto.CategoriaDTO;
 import com.joaosouza.cursomc.services.CategoriaService;
 
 @RestController
@@ -50,5 +53,12 @@ public class CategoriaResource {
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(method=RequestMethod.GET)
+	public ResponseEntity<List<CategoriaDTO>> findAll() {
+		List<Categoria> list = service.findAll(); // busca a lista de categoria do banco
+		List<CategoriaDTO> listDto = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList()); // converte uma lista para outra lista
+		return ResponseEntity.ok().body(listDto);
 	}
 }
